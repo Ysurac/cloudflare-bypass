@@ -62,7 +62,7 @@ class cloudflare {
 				'cookie: '.$cfClearanceCookie
 			));	
 			// clear cookie log
-			unlink('cf-cookies/cookies.txt');
+			if (file_exists('cf-cookies/cookies.txt')) unlink('cf-cookies/cookies.txt');
 			// if cookie has expired
 			if(strpos($cfTest['content'], 'chk_jschl') !== false) {
 				// create new cookie file with new clearance cookie
