@@ -239,7 +239,7 @@ class cloudflare {
 		$pass     = self::getInputValue($response, 'pass');
 		// extract javascript challenge code from CloudFlare script
 		$siteLen = mb_strlen(substr($siteLink, strpos($siteLink,'/')+2), 'utf8');
-		$script  = substr($response, strpos($response, 'var t,r,a,f,') + mb_strlen('var t,r,a,f,', 'utf8'));		
+		$script  = substr($response, strpos($response, 'var s,t,o,p,b,r,e,a,k,i,n,g,f,') + mb_strlen('var s,t,o,p,b,r,e,a,k,i,n,g,f,', 'utf8'));
 		$varname = trim(substr($script, 0, strpos($script, '=')));
 		$script  = substr($script, strpos($script, $varname));
 		// removing form submission event
@@ -257,6 +257,7 @@ class cloudflare {
 		$script  = str_replace(array("!![]", "!+[]"), 1, $script);
 		$script  = str_replace(array("![]", "[]"), 0, $script);
 		$script  = str_replace(array(")+", ").$siteLen"), array(").", ")+$siteLen"), $script);	
+		$script  = preg_replace("/'[^']+'/", "", $script);
 		// evaluate PHP script
 		eval($script);
 		// if cloudflare answer has been found, store it 
